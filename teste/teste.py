@@ -40,6 +40,9 @@ def learn(case_values: list, number_of_seen_cases: int):
     if case_values[-1] == 0:
         return
 
+    else:
+        
+
 
 
 def shutdown(learned_values_filename: str, learned_values: list, number_of_seen_cases_filename: str, seen_cases: int):
