@@ -1,16 +1,4 @@
-
-def parse_line(line: str) -> list:
-    """Parses the line in the dataset, assuming it's a csv, and returns the values in a list"""
-    return line.split(',')
-
-
-def build_line_for_writing(values: list) -> str:
-    string = ""
-    for value in values:
-        string = string + str(values) + ','
-
-    string[-1] = '\n'
-    return string
+from pre_ml_library import parse_line, build_line_for_writing
 
 
 DATASET_FILE_NAME = 'my-heart.csv'
@@ -28,25 +16,41 @@ for line in dataset:
         print('wrote a text line')
 
     else:
-        values.insert(3, 0)
-        values.insert(3, 0)
+        values.insert(2, 0)
+        values.insert(2, 0)
 
-        if values[5] == 3:
-            values[5] = 1
+        values.insert(6, 0)
 
-        elif values[5] == 2:
-            values[5] = 0
+        values.insert(9, 0)
+
+        if values[4] == 3:
             values[4] = 1
-
-        elif values[5] == 1:
-            values[5] = 0
+        elif values[4] == 2:
+            values[4] = 0
             values[3] = 1
+        elif values[4] == 1:
+            values[4] = 0
+            values[2] = 1
+        elif values[4] != 0:
+            print('this is unexpected')
 
-        elif values[5] != 0:
-                print('Oh ow, something went unpredictably bad')
+        if values[7] == 2:
+            values[7] = 1
+        elif values[7] == 1:
+            values[7] = 0
+            values[6] = 1
+        elif values[7] != 0:
+            print('unpredicted')
 
-        values.insert(7, 0)
-        values.insert(7, 0)
-        if values[]
+        if values[10] == 2:
+            values[10] = 1
+        elif values[10] == 1:
+            values[10] = 0
+            values[9] = 1
+        elif values[10] != 0:
+            print('horsey')
 
+        output_dataset.write(build_line_for_writing(values))
 
+output_dataset.close()
+dataset.close()
