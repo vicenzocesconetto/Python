@@ -1,3 +1,5 @@
+from pre_ml_library import parse_line
+
 
 def setup(LEARNED_VALUES_FILENAME: str, NUMBER_OF_SEEN_CASES_FILENAME: str, medical_conditions_weights: list) -> int:
     """Loads the values learned and the number of seen cases"""
@@ -24,11 +26,6 @@ def setup(LEARNED_VALUES_FILENAME: str, NUMBER_OF_SEEN_CASES_FILENAME: str, medi
     return number_of_seen_cases
 
 
-def parse_line(line: str) -> list:
-    """Parses the line in the dataset, assuming it's a csv, and returns the values in a list"""
-    return line.split(',')
-
-
 def feed(dataset_filename: str, number_of_seen_cases: int):
     """This function is supposed to feed the data to the model"""
     with open(dataset_filename, 'r') as dataset:
@@ -36,12 +33,14 @@ def feed(dataset_filename: str, number_of_seen_cases: int):
             dataset_line_values = parse_line(line)
 
 
-def learn(case_values: list, number_of_seen_cases: int):
+def learn(case_values: list, variable_weights: list, number_of_seen_cases: int):
     if case_values[-1] == 0:
         return
 
+    elif len(case_values) != len(variable_weights):
+        print('case mismatch')
+        return
     else:
-        
 
 
 
