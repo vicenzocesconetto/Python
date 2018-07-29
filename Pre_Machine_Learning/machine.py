@@ -1,71 +1,36 @@
-from pre_ml_library import parse_line
-
-
-def setup(LEARNED_VALUES_FILENAME: str, NUMBER_OF_SEEN_CASES_FILENAME: str, medical_conditions_weights: list) -> int:
-    """Loads the values learned and the number of seen cases"""
-    try:
-        with open(LEARNED_VALUES_FILENAME, 'r') as learned_values:
-            for line in learned_values:
-                medical_conditions_weights.append(int(line))
-
-    except IOError:
-        open(LEARNED_VALUES_FILENAME, "w").close()
-        print(LEARNED_VALUES_FILENAME + ' was created')
-
-    number_of_seen_cases = 0
-
-    try:
-        with open(NUMBER_OF_SEEN_CASES_FILENAME, 'r') as seen_cases_file:
-            for line in seen_cases_file:
-                number_of_seen_cases = int(line)
-
-    except IOError:
-        open(NUMBER_OF_SEEN_CASES_FILENAME, 'w').close()
-        print(NUMBER_OF_SEEN_CASES_FILENAME + ' was created')
-
-    return number_of_seen_cases
+from pre_ml_library import parse_line, setup, shutdown
 
 
 def feed(dataset_filename: str, number_of_seen_cases: int):
     """This function is supposed to feed the data to the model"""
-    with open(dataset_filename, 'r') as dataset:
-        for line in dataset:
-            dataset_line_values = parse_line(line)
 
 
-def learn(case_values: list, variable_weights: list, number_of_seen_cases: int):
-    if case_values[-1] == 0:
-        return
 
-    elif len(case_values) != len(variable_weights):
+def learn(case_values: list, variable_weights: list, number_of_seen_cases: int) -> int:
+    if len(case_values) - 1 != len(variable_weights):
         print('case mismatch')
-        return
-    else:
 
+    elif case_values[-1] != 0:
+        print('learning')
+        for i in range(len(case_values)-1):
+            variable_weights[i] = (case_values[i] + (variable_weights[i] * number_of_seen_cases)) / number_of_seen_cases + 1
 
+        number_of_seen_cases += 1
 
-def shutdown(learned_values_filename: str, learned_values: list, number_of_seen_cases_filename: str, seen_cases: int):
-    with open(learned_values_filename, 'w') as learned_values_file:
-        for value in learned_values:
-            learned_values_file.write(value + '\n')
-        learned_values_file.close()
-
-    with open(number_of_seen_cases_filename, 'w') as seen_cases_file:
-        seen_cases_file.write(str(seen_cases))
-        seen_cases_file.close()
+    return number_of_seen_cases
 
 
 print('Power to the main thrusters')
 
-LEARNED_VALUES_FILENAME = 'learned.txt'
+LEARNED_VALUES_FILENAME = 'learned_values'
 
-NUMBER_OF_SEEN_CASES_FILENAME = 'seen_cases.txt'
+NUMBER_OF_SEEN_CASES_FILENAME = 'number_of_seen_cases'
 
-CSV_LINE_LENGTH = 7
+CSV_LINE_LENGTH = 12
 
 AMOUNT_OF_GOAL_VALUES = 1
 
-dataset_filename = 'my-heart.csv'
+dataset_filename = 'new-my-heart.csv'
 
 medical_conditions_weights = list()
 
@@ -85,7 +50,10 @@ while command:
                     '[1]Train the model\n'))
 
     if command == 0:
+        shutdown(LEARNED_VALUES_FILENAME, medical_conditions_weights, NUMBER_OF_SEEN_CASES_FILENAME, number_of_seen_cases)
 
-
-    if command == 1:
-        feed(dataset_filename, number_of_seen_cases)
+    elif command == 1:
+        with open(dataset_filename, 'r') as dataset:
+            dataset.readline()
+            for line in dataset:
+                dataset_line_values = parse_line(line)
