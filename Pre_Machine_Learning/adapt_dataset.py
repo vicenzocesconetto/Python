@@ -12,7 +12,7 @@ output_dataset = open(ADAPTED_DATASET_NAME, 'w')
 for line in dataset:
     values = parse_line(line)
     if isinstance(values[0], str):
-        output_dataset.write(line)
+        output_dataset.write('age,sex,chest pain type 1,chest pain type 2,chest pain type 3,fasting blood sugar > 120 mg/dl,resting electrocardiographic results type 1,resting electrocardiographic results type 2,exercise induced angina,slope type 1,slope type 1,target\n')
         print('wrote a text line')
 
     else:
