@@ -45,3 +45,14 @@ def setup(learned_values_filename: str, number_of_seen_cases_filename: str, medi
         print(number_of_seen_cases_filename + ' was created')
 
     return number_of_seen_cases
+
+
+def shutdown(learned_values_filename: str, learned_values: list, number_of_seen_cases_filename: str, seen_cases: int):
+    with open(learned_values_filename, 'w') as learned_values_file:
+        for value in learned_values:
+            learned_values_file.write(value + '\n')
+        learned_values_file.close()
+
+    with open(number_of_seen_cases_filename, 'w') as seen_cases_file:
+        seen_cases_file.write(str(seen_cases))
+        seen_cases_file.close()
