@@ -20,3 +20,28 @@ def build_line_for_writing(values: list) -> str:
     string = string[:-1]
     string += '\n'
     return string
+
+
+def setup(learned_values_filename: str, number_of_seen_cases_filename: str, medical_conditions_weights: list) -> int:
+    """Loads the values learned and the number of seen cases"""
+    try:
+        with open(learned_values_filename, 'r') as learned_values:
+            for line in learned_values:
+                medical_conditions_weights.append(parse_line(line))
+
+    except IOError:
+        open(learned_values_filename, "w").close()
+        print(learned_values_filename + ' was created')
+
+    number_of_seen_cases = 0
+
+    try:
+        with open(number_of_seen_cases_filename, 'r') as seen_cases_file:
+            for line in seen_cases_file:
+                number_of_seen_cases = parse_line(line)
+
+    except IOError:
+        open(number_of_seen_cases_filename, 'w').close()
+        print(number_of_seen_cases_filename + ' was created')
+
+    return number_of_seen_cases
